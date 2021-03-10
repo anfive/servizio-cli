@@ -250,19 +250,61 @@ impl StyleCode {
       && self.pen <= StyleCode::MAX_PENALTIES
   }
 
+  pub fn score(&self) -> f32 {
+    let points = self.bas + self.mov + self.din + self.com + self.sapd + self.gcc + self.dif;
+    let score = 55 + 2 * points + 1 * self.sog - 5 * self.pen;
+    score as f32 / 10.0
+  }
+
   pub fn pretty_print(&self) -> String {
     format!(
-      "BAS : {}
-MOV : {}
-DIN : {}
-COM : {}
-SAPD: {}
-GCC : {}
-DIF : {}
-SOG : {}
-PEN : {}
+      "Score: {}
+BAS  : {}
+MOV  : {}
+DIN  : {}
+COM  : {}
+SAPD : {}
+GCC  : {}
+DIF  : {}
+SOG  : {}
+PEN  : {}
 ",
-      self.bas, self.mov, self.din, self.com, self.sapd, self.gcc, self.dif, self.sog, self.pen
+      self.score(),
+      self.bas,
+      self.mov,
+      self.din,
+      self.com,
+      self.sapd,
+      self.gcc,
+      self.dif,
+      self.sog,
+      self.pen
+    )
+  }
+
+  pub fn raw_print(&self) -> String {
+    format!(
+      "{}
+{}
+{}
+{}
+{}
+{}
+{}
+{}
+{}
+{}
+",
+      self.score(),
+      self.bas,
+      self.mov,
+      self.din,
+      self.com,
+      self.sapd,
+      self.gcc,
+      self.dif,
+      self.sog,
+      self.pen
     )
   }
 }
